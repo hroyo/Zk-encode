@@ -1,0 +1,410 @@
+:root {
+  --dark: #1e1e1e;
+  --dark-two: #0f0f0f;
+  --grey: #ffffff33;
+  --light: #ffffff;
+  --grey-two: #686464;
+  --grey-thr: #6f6f6f;
+  --green: #1afe75;
+  --gray-fr: #6b6b6b;
+  --black-v1: #1e1e1e;
+  --black-grey: #313131;
+  --text-grey: #b8b8b7;
+  --transparentBlack: rgba(255, 255, 255, 0.1);
+  --transparentBlackTwo: rgba(255, 255, 255, 0.2);
+  --transparentBlackDark: rgba(255, 255, 255, 0.18);
+  --grey-white: #d9d9d9;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Montserrat", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  height: 100%;
+  background-color: var(--dark-two);
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+#root {
+  height: 100%;
+  min-height: 100vh;
+}
+
+.fontMonstserat {
+  font-family: "Montserrat", sans-serif !important;
+}
+
+.headingMd {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 22px;
+}
+
+.heading2xlMd {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 31px;
+}
+
+.heading2xl2Md {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+}
+
+.headingSm {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.headingSm01 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  width: 40px;
+  height: 40px;
+}
+
+@media only screen and (max-width: 400px) {
+  .headingSm01 {
+    width: 25px;
+    height: 25px;
+    font-size: 12px;
+  }
+}
+
+.textNormal2x {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.textNormalSm {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 20px;
+}
+
+.textNormalSm1x {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.textNormalSm0x {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.text2xMd {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 33px;
+}
+
+.text05xMd {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 13.5px;
+}
+
+.text0xLi {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.text000xMd {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 8px;
+  line-height: 7.31px;
+}
+
+.font_w400 {
+  font-weight: 400;
+}
+
+.font_w500 {
+  font-weight: 500;
+}
+
+.font_w600 {
+  font-weight: 600;
+}
+
+.font_w700 {
+  font-weight: 700;
+}
+
+.cusInp {
+  padding: 12px;
+  width: 100%;
+  background-color: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  outline: none;
+}
+
+.transBtn {
+  background-color: transparent;
+  padding: 6px 25px;
+
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+  border: none;
+  outline: none;
+  text-decoration: none;
+}
+
+.iconbtn {
+  background-color: transparent;
+  /* padding: 6px 25px; */
+  outline: none;
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+  border: none;
+}
+
+.textGrey {
+  color: var(--text-grey);
+}
+
+.colorGrey {
+  color: var(--grey);
+}
+
+.colortLight {
+  color: var(--light);
+}
+
+.greyWhite {
+  color: var(--grey-white);
+}
+
+.lightGray {
+  color: var(--grey-two);
+}
+
+.greyThr {
+  color: var(--grey-thr);
+}
+
+.greenColor {
+  color: var(--green);
+}
+
+.whiteColor {
+  color: var(--grey-white);
+}
+
+.greenBg {
+  background-color: var(--green);
+}
+
+.greyBg {
+  background-color: var(--gray-fr);
+}
+
+.whiteBg {
+  background-color: var(--grey-white);
+}
+
+.blackTransBg {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.blackGreyBg {
+  background-color: var(--black-grey);
+}
+
+.darkBg {
+  background-color: var(--dark-two) !important;
+}
+
+.transparentBlackDarkBg {
+  background-color: var(--transparentBlackDark);
+}
+
+.op05 {
+  opacity: 0.5;
+}
+
+.op08 {
+  opacity: 0.8;
+}
+
+.radius10 {
+  border-radius: 10px !important;
+}
+
+.radius20 {
+  border-radius: 20px !important;
+}
+
+.radius30 {
+  border-radius: 30px !important;
+}
+
+.whiteBorder {
+  border: 1px solid #ffffff !important;
+}
+
+.greyBorder {
+  border: 1px solid #ffffffa3 !important;
+}
+
+.darkBorder {
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.borderNone {
+  border: none;
+}
+
+.textCenter {
+  text-align: center;
+}
+
+.mt_5 {
+  margin-top: 5px;
+}
+
+.mt_10 {
+  margin-top: 10px;
+}
+
+.mt_15 {
+  margin-top: 15px;
+}
+
+.mt_20 {
+  margin-top: 20px;
+}
+
+.mt_30 {
+  margin-top: 30px;
+}
+
+.mx_10 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.mx_12 {
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+.mx_15 {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.mx_20 {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.mx_25 {
+  margin-left: 25px;
+  margin-right: 25px;
+}
+
+.p_0 {
+  padding: 0px;
+  /* padding-bottom: 0px; */
+}
+
+.py_10 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.py_12 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.py_15 {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.py_20 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.px_10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.px_15 {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.px_20 {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.w_100 {
+  width: 100%;
+}
+
+.activeBtn {
+  background-color: var(--gray-fr) !important;
+}
+
+.greyGradient {
+  background: linear-gradient(138.76deg,
+      rgba(255, 255, 255, 0.64) -64.08%,
+      rgba(255, 255, 255, 0) 106.84%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.18));
+  border: 1px solid;
+
+  border-image-source: linear-gradient(138.76deg,
+      rgba(255, 255, 255, 0.64) -64.08%,
+      rgba(255, 255, 255, 0) 106.84%);
+}
+
+.iAmReadyButton {
+  background: linear-gradient(to right, #388fc3, #1aa487, #0ab068);
+}

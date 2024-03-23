@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "jsx": "react", // Add this line to specify JSX usage
+        "target": "es2017",
+        "module": "esnext",
+        "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true, // This may be necessary for compatibility
+        "allowJs": true,
+        "outDir": "./dist", // Specify a different output directory
+        "types": [
+            "node",
+            "vite/client"
+        ],
+    },
+    "include": [
+        "src/**/*",
+        "src/**/*.js", // Include JavaScript files
+    ],
+    // ... other configurations
+}

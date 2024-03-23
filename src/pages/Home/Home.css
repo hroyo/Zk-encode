@@ -1,0 +1,264 @@
+.containerContent {
+  gap: 25px;
+}
+
+.genresCard {
+  width: 152px;
+}
+
+.imageItem {
+  width: 120px;
+  object-fit: none;
+}
+
+/* treasure */
+@media (min-width: 364px) {
+  .genresBox {
+    display: flex;
+  }
+}
+
+@media (max-width: 364px) {}
+
+@media (max-width: 366px) {
+  .profileCard {
+    margin-left: -60px;
+  }
+}
+
+@media (max-width: 500px) {
+  .containerContent {
+    overflow-x: scroll;
+    max-width: 500px;
+  }
+
+  .imageItem {
+    width: 70px;
+    object-fit: none;
+  }
+
+  .containerContent::-webkit-scrollbar {
+    width: 0;
+  }
+
+  .profileCard {
+    max-height: 500px;
+    overflow-y: scroll;
+  }
+
+  .profileCard::-webkit-scrollbar {
+    width: 0;
+  }
+}
+
+@media (min-width: 992px) {
+  .containerContent {
+    flex-wrap: wrap;
+    column-gap: 25px;
+  }
+}
+
+.featuredHeading {
+  font-size: 30px;
+  font-weight: 600;
+  font-family: "Montserrat";
+  color: white;
+  margin-top: 60px;
+  margin-bottom: 40px;
+}
+
+.featuredBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* border: 1px solid #00000077; */
+  /* background-color: #121212; */
+  border-radius: 50px;
+  margin-top: 40px;
+  margin-bottom: 100px;
+  height: 395px;
+}
+
+.featuredBox .left {
+  width: 70%;
+  padding: 40px 30px 40px 30px;
+}
+
+.featuredBox .left h1 {
+  /* width: 60%; */
+  padding: 20px 0px 0px 30px;
+  font-size: 30px;
+  /* color: #828384; */
+  font-family: Montserrat;
+  font-weight: 600;
+  /* line-height: 22px; */
+}
+
+.featuredBox .left p {
+  /* width: 80%; */
+  font-size: 20px;
+  font-weight: 500;
+  color: #828384;
+
+  font-family: Montserrat;
+  line-height: 28px;
+  padding: 0px 0px 10px 30px;
+}
+
+.featuredBox .right {
+  width: 30%;
+  min-height: 100%;
+  position: relative;
+}
+
+.featuredBox .right img {
+  /* position: absolute; */
+  /* right: 0px; */
+  /* width: 100%;
+  height: 140%; */
+  /* top: -0.5%; */
+}
+
+.featuredBox h1 {
+  /* font-size: 25px; */
+  font-weight: 700;
+  font-family: Montserrat;
+  color: white;
+}
+
+.featuredBox p {
+  font-size: 20px;
+  font-family: Montserrat;
+  color: white;
+  margin-top: 30px;
+}
+
+.featuredBoxButtons {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  margin-top: 30px;
+  padding: 0px 0px 10px 30px;
+}
+
+.featuredBoxButtons button {
+  padding: 9px 15px 9px 15px;
+  font-family: Montserrat;
+  color: white;
+  border-radius: 10px;
+  background-color: #333333;
+  outline: none;
+  border: none;
+}
+
+.featuredBoxPhone {
+  display: none;
+}
+
+@media only screen and (max-width: 1230px) {
+  .featuredBox .left {
+    width: 80%;
+    font-size: "22px",
+
+  }
+
+  .featuredBox .right {
+    width: 35%;
+  }
+
+}
+
+@media only screen and (max-width: 1090px) {
+  .featuredBox .left {
+    width: 80%;
+  }
+
+  .featuredBox .right {
+    width: 35%;
+  }
+
+}
+
+@media only screen and (max-width: 880px) {
+  .featuredBox .left {
+    width: 80%;
+  }
+
+  .featuredBox .right {
+    width: 50%;
+  }
+
+  .featuredBox .right img {
+    height: 102%;
+    top: -1%;
+  }
+}
+
+@media only screen and (max-width: 882px) {
+  .featuredBox {
+    display: none;
+  }
+
+  .featuredBoxPhone {
+    display: flex;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .featuredHeading {
+    margin-bottom: 50px;
+    margin-top: 60px;
+  }
+}
+
+.featuredBox {
+  margin-top: 40px;
+}
+
+.featuredBoxPhone h1 {
+  /* font-size: 25px; */
+  font-weight: 700;
+  font-family: Montserrat;
+  color: white;
+}
+
+.featuredBoxPhone p {
+  font-size: 14px;
+  font-family: Montserrat;
+  color: white;
+  margin-top: 30px;
+  line-height: 24px;
+  padding-right: 40px;
+}
+
+.featuredBoxButtons {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  margin-top: 30px;
+}
+
+.featuredBoxButtons button {
+  padding: 5px 9px 5px 9px;
+  font-family: Montserrat;
+  color: white;
+  border-radius: 10px;
+  background-color: #333333;
+  outline: none;
+  border: none;
+  font-size: 12px;
+}
+
+.mobHeadingDivF {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 12px;
+}
+
+.mobHeadingDivF .right {
+  width: 50%;
+  position: relative;
+  left: 14px;
+}
