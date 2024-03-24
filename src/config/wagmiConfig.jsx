@@ -68,14 +68,14 @@ createWeb3Modal({
   //   metamask: MetaMaskIcon,
   //   injected: MetaMaskIcon,
   // },
-  tokens: {
-    //   1: {
-    //     address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
-    //   },
-    11155111: {
-      address: '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619'
-    }
-  },
+  // tokens: {
+  //   //   1: {
+  //   //     address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
+  //   //   },
+  //   11155111: {
+  //     address: '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619'
+  //   }
+  // },
   // customWallets: [
   //   {
   //     id: 'myCustomWallet',
