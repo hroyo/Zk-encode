@@ -10,7 +10,6 @@ const Home = () => {
 
       <ConnectButton /> {/* Render the ConnectButton component */}
       {/* Add other components and buttons as needed */}
-      Hello I am rodrigo
       <PurchaseButton /> {/* Render the ConnectButton component */}
     </div>
   );
