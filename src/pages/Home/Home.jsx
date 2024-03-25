@@ -68,7 +68,7 @@ const Home = () => {
       </ProductCenter>
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px" }}>
         <div style={{ maxWidth: "400px" }}>
-          <p style={{ textAlign: "center", padding: "20px" }}>Living with a condition is stressful enough and should be easy to prove where you are.</p>
+          <p style={{ textAlign: "center", padding: "20px" }}>Living with a condition is stressful enough and should be easy to prove.</p>
         </div>
       </div>
     </div >
