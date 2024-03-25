@@ -3,8 +3,6 @@
 import React, { useState } from 'react';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
-import styles from "../../app.module.css";
-import { styled } from "@mui/material/styles";
 import style from "../../app.module.css";
 
 export function ConnectButton() { // Export named function ConnectButton
@@ -37,19 +35,24 @@ export function ConnectButton() { // Export named function ConnectButton
                 {isConnected ? 'Connected' : 'Connect Wallet'}
             </button>
 
-            {isConnected && chain?.id !== 137 && (
-                <button onClick={handleSwitchNetwork}>
-                    {/* Your button content goes here */}
-                    Switch Network
-                </button>
-            )}
-
-            {isConnected && (
-                <button onClick={handleDisconnect}>
-                    {/* Your button content goes here */}
-                    Disconnect
-                </button>
-            )}
         </div>
     );
 }
+
+
+
+
+
+// {/* {isConnected && chain?.id !== 137 && (
+//     <button onClick={handleSwitchNetwork}>
+//         {/* Your button content goes here */}
+//         Switch Network
+//     </button>
+// )}
+
+// {isConnected && (
+//     <button onClick={handleDisconnect}>
+//         {/* Your button content goes here */}
+//         Disconnect
+//     </button>
+// )} */}

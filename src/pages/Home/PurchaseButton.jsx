@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
-import styles from "../../app.module.css";
-import { styled } from "@mui/material/styles";
-import style from "../../app.module.css";
+
 
 // Import ethers.js
 import { ethers } from 'ethers';
@@ -28,7 +26,7 @@ export function PurchaseButton() {
         try {
             // Connect to the Ethereum network
             const provider = new ethers.providers.Web3Provider(window.ethereum);
-            
+
             // Load the contract
             const contract = new ethers.Contract('0x6a651566a60f08e395068e0c20b29d0e95a5f875', YourContractABI, provider.getSigner());
             setContractInstance(contract);
@@ -48,7 +46,7 @@ export function PurchaseButton() {
             [response.proof.b[0], response.proof.b[1]],
             response.proof.c
         ];
-    
+
         // Log the transformed proof to verify
         console.log("PROOF TRANSFORMED")
         console.log(proof);
@@ -73,7 +71,7 @@ export function PurchaseButton() {
                 "0x2b2bc53f9dd2df776c96f2de8eeafe13d32309c06e8abc2cfd8daa26d2dc6b65"
             ]
         ];
-        console.log(old_proof==proof)
+        console.log(old_proof == proof)
         console.log("OLD PROOF")
         console.log(old_proof)
         return proof;
@@ -82,16 +80,18 @@ export function PurchaseButton() {
     const callContractFunction = async () => {
         try {
             console.log("HELLO: ", address)
+
+            //// PROCESS ENV
             const response = await fetch('http://localhost:5000/generate-proof', {
                 method: 'POST',
                 headers: {
-                  'Content-Type': 'application/json'
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({"address": address})
-              });
+                body: JSON.stringify({ "address": address })
+            });
             const data = await response.json();
             console.log(data)
-            
+
             if (!contractInstance) {
                 throw new Error('Contract instance is not initialized.');
             }
@@ -99,7 +99,7 @@ export function PurchaseButton() {
             // Call the function on the contract instance
             const transformedProof = transformResponseToProofFormat(data["proof"]);
             console.log(transformedProof);
-            
+
             const result = await contractInstance.buyMedicineA(transformedProof, {
                 value: ethers.utils.parseEther("0.001") // Replace "0.1" with the amount you want to send in Ether
             }); // Assuming buyMedicineA is a public method
@@ -118,15 +118,29 @@ export function PurchaseButton() {
         <div>
             {isConnected && !loading && (
                 <div>
-                    <button onClick={callContractFunction}>
-                        Call Contract Function
-                    </button>
-                    <button onClick={handleDisconnect}>
-                        Disconnect
-                    </button>
+                    <div>
+                        <button onClick={callContractFunction}
+                            style={{
+                                border: "2px solid #445faf", // Set green border
+                                borderRadius: "25px", // Optional: Add rounded corners
+                                padding: "10px 20px", // Optional: Add padding
+                                fontSize: "16px", // Optional: Adjust font size
+                                backgroundColor: "#445faf", // Optional: Set transparent background
+                                color: "white",
+                                cursor: "pointer", // Optional: Add pointer cursor on hover
+
+                            }}
+                            onMouseEnter={(e) => (e.target.style.backgroundColor = "#334499")} // Change background color on hover
+                            onMouseLeave={(e) => (e.target.style.backgroundColor = "#445faf")} >
+                            Zk Buy
+                        </button>
+                    </div>
+
                 </div>
-            )}
+            )
+            }
+
             {loading && <p>Loading...</p>}
-        </div>
+        </div >
     );
 }
