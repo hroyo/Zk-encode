@@ -34,7 +34,8 @@
     "uuid": "^9.0.0",
     "viem": "^1.21.4",
     "wagmi": "^1.4.13",
-    "web3": "^4.0.2"
+    "web3": "^4.0.2",
+    "zokrates-js": "^1.1.9"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
