@@ -12,13 +12,15 @@ import { ethers } from 'ethers';
 // Import your contract ABI (replace YourContractABI with the actual ABI)
 import YourContractABI from '../../PharmacyAbi.json';
 
-export function PurchaseButton({ proveKeyString, programString }    ) {
+export function PurchaseButton() {
     const { open } = useWeb3Modal();
     const { chain } = useNetwork();
     const { isConnected, address } = useAccount();
 
     const [contractInstance, setContractInstance] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [proveKeyString, setProveKeyString] = useState('');
+    const [programString, setProgramString] = useState('');
     const zk = useZokrates();
 
     const handleDisconnect = () => {
@@ -42,13 +44,12 @@ export function PurchaseButton({ proveKeyString, programString }    ) {
     };
 
     const transformResponseToProofFormat = (responseJson) => {
-        const response = JSON.parse(responseJson);
         console.log("HERE COMES RESPONSE")
-        console.log(response)
+        console.log(responseJson)
         const proof = [
-            response.proof.a,
-            [response.proof.b[0], response.proof.b[1]],
-            response.proof.c
+            responseJson["a"],
+            [responseJson["b"][0], responseJson["b"][1]],
+            responseJson["c"]
         ];
 
         // Log the transformed proof to verify
@@ -89,27 +90,34 @@ export function PurchaseButton({ proveKeyString, programString }    ) {
         try {
             
             console.log("HELLO: ", address)
+            console.log("PROGRAM STRING")
             console.log(programString)
             // Generate proof
             const artifacts = zk.compile(programString);
+            console.log("ARTIFACTS")
             console.log(artifacts)
             const decimalStringAddress = BigInt(address).toString();
-            const { witness, output } = zk.computeWitness(artifacts, [decimalStringAddress,decimalStringAddress,'22', '2312', '1234', '4444', '3333', '1234']);
+            const { witness, output } = zk.computeWitness(artifacts, [decimalStringAddress,decimalStringAddress,['22', '2312', '1234', '4444', '3333'], '1234']);
+            console.log("WITNESS")
+            console.log(witness)
             const proveKey = base64ToArrayBuffer(proveKeyString);
+            console.log("PROVE KEY")
+            console.log(proveKey)
             const { proof, inputs } = zk.generateProof(
                 artifacts.program,
                 witness,
                 proveKey
             );
             console.log(proof)
-
             // Call the function on the contract instance
-            const transformedProof = transformResponseToProofFormat(data["proof"]);
+            const transformedProof = transformResponseToProofFormat(proof);
             console.log(transformedProof);
 
             const result = await contractInstance.buyMedicineA(transformedProof, {
-                value: ethers.utils.parseEther("0.001") // Replace "0.1" with the amount you want to send in Ether
-            }); // Assuming buyMedicineA is a public method
+                value: ethers.utils.parseEther("0.001"), // The amount of Ether to send with the transaction.
+                gasLimit: ethers.utils.hexlify(1000000), // Setting a gas limit. Adjust the number based on your needs.
+            });
+            
             console.log(result); // Handle the result as needed
         } catch (error) {
             console.error('Error calling contract function:', error);
@@ -117,6 +125,29 @@ export function PurchaseButton({ proveKeyString, programString }    ) {
     };
 
     useEffect(() => {
+        // Fetch data when component mounts
+        const fetchData = async () => {
+            // const res = await fetch("https://github.com/hroyo/Zk-encode/tree/proof-generation/public/proving.key");
+            // const arrayBuffer = await res.arrayBuffer();
+            // const proveKeyString = arrayBufferToBase64(arrayBuffer);
+
+            // const res2 = await fetch("https://github.com/hroyo/Zk-encode/tree/proof-generation/public/pharmacy.zok");
+            // const programString = await res2.text();
+
+            // Assuming the proving key file is located at /public/proving.key
+            const proveKeyResponse = await fetch("../../../public/proving.key");
+            const proveKeyArrayBuffer = await proveKeyResponse.arrayBuffer(); // Fetch array buffer directly
+            const proveKeyString = arrayBufferToBase64(proveKeyArrayBuffer);
+
+            // Assuming the program file is located at /public/pharmacy.zok
+            const programResponse = await fetch("../../../public/pharmacy.zok");
+            const programString = await programResponse.text();
+
+            setProveKeyString(proveKeyString);
+            setProgramString(programString);
+        };
+
+        fetchData();
         // Initialize contract when component mounts
         initializeContract();
     }, []);
@@ -152,19 +183,4 @@ export function PurchaseButton({ proveKeyString, programString }    ) {
     );
 }
 
-export async function getStaticProps() {
-    const res = await fetch("https://github.com/hroyo/Zk-encode/tree/rodrigo/public/proving.key");
-    const arrayBuffer = await res.arrayBuffer();
-    const proveKeyString = arrayBufferToBase64(arrayBuffer);
-  
-    const res2 = await fetch("https://github.com/hroyo/Zk-encode/tree/rodrigo/public/pharmacy.zok");
-    const programString = await res2.text();
-  
-    return {
-      props: {
-        proveKeyString,
-        programString,
-      },
-    };
-  }
-
+  export default PurchaseButton;
