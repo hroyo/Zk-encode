@@ -121,11 +121,11 @@ export function PurchaseButton() {
                     <div>
                         <button onClick={callContractFunction}
                             style={{
-                                border: "2px solid #445faf", // Set green border
+                                border: "2px solid #1d47b2", // Set green border
                                 borderRadius: "25px", // Optional: Add rounded corners
                                 padding: "10px 20px", // Optional: Add padding
                                 fontSize: "16px", // Optional: Adjust font size
-                                backgroundColor: "#445faf", // Optional: Set transparent background
+                                backgroundColor: "#1d47b2", // Optional: Set transparent background
                                 color: "white",
                                 cursor: "pointer", // Optional: Add pointer cursor on hover
 
