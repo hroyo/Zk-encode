@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
+import { useZokrates } from "../../contexts/ZokratesContext";
+import { arrayBufferToBase64, base64ToArrayBuffer } from "../../utils/converter";
+
 
 
 // Import ethers.js
@@ -16,6 +19,9 @@ export function PurchaseButton() {
 
     const [contractInstance, setContractInstance] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [proveKeyString, setProveKeyString] = useState('');
+    const [programString, setProgramString] = useState('');
+    const zk = useZokrates();
 
     const handleDisconnect = () => {
         // Notify the parent about the disconnect event
@@ -38,13 +44,12 @@ export function PurchaseButton() {
     };
 
     const transformResponseToProofFormat = (responseJson) => {
-        const response = JSON.parse(responseJson);
         console.log("HERE COMES RESPONSE")
-        console.log(response)
+        console.log(responseJson)
         const proof = [
-            response.proof.a,
-            [response.proof.b[0], response.proof.b[1]],
-            response.proof.c
+            responseJson["a"],
+            [responseJson["b"][0], responseJson["b"][1]],
+            responseJson["c"]
         ];
 
         // Log the transformed proof to verify
@@ -78,31 +83,41 @@ export function PurchaseButton() {
     };
 
     const callContractFunction = async () => {
+        if (!zk) {
+            console.log("ZK not ready");
+            return;
+        }
         try {
+            
             console.log("HELLO: ", address)
-
-            //// PROCESS ENV
-            const response = await fetch('http://localhost:5000/generate-proof', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ "address": address })
-            });
-            const data = await response.json();
-            console.log(data)
-
-            if (!contractInstance) {
-                throw new Error('Contract instance is not initialized.');
-            }
-            console.log(response["proof"])
+            console.log("PROGRAM STRING")
+            console.log(programString)
+            // Generate proof
+            const artifacts = zk.compile(programString);
+            console.log("ARTIFACTS")
+            console.log(artifacts)
+            const decimalStringAddress = BigInt(address).toString();
+            const { witness, output } = zk.computeWitness(artifacts, [decimalStringAddress,decimalStringAddress,['22', '2312', '1234', '4444', '3333'], '1234']);
+            console.log("WITNESS")
+            console.log(witness)
+            const proveKey = base64ToArrayBuffer(proveKeyString);
+            console.log("PROVE KEY")
+            console.log(proveKey)
+            const { proof, inputs } = zk.generateProof(
+                artifacts.program,
+                witness,
+                proveKey
+            );
+            console.log(proof)
             // Call the function on the contract instance
-            const transformedProof = transformResponseToProofFormat(data["proof"]);
+            const transformedProof = transformResponseToProofFormat(proof);
             console.log(transformedProof);
 
             const result = await contractInstance.buyMedicineA(transformedProof, {
-                value: ethers.utils.parseEther("0.001") // Replace "0.1" with the amount you want to send in Ether
-            }); // Assuming buyMedicineA is a public method
+                value: ethers.utils.parseEther("0.001"), // The amount of Ether to send with the transaction.
+                gasLimit: ethers.utils.hexlify(1000000), // Setting a gas limit. Adjust the number based on your needs.
+            });
+            
             console.log(result); // Handle the result as needed
         } catch (error) {
             console.error('Error calling contract function:', error);
@@ -110,6 +125,29 @@ export function PurchaseButton() {
     };
 
     useEffect(() => {
+        // Fetch data when component mounts
+        const fetchData = async () => {
+            // const res = await fetch("https://github.com/hroyo/Zk-encode/tree/proof-generation/public/proving.key");
+            // const arrayBuffer = await res.arrayBuffer();
+            // const proveKeyString = arrayBufferToBase64(arrayBuffer);
+
+            // const res2 = await fetch("https://github.com/hroyo/Zk-encode/tree/proof-generation/public/pharmacy.zok");
+            // const programString = await res2.text();
+
+            // Assuming the proving key file is located at /public/proving.key
+            const proveKeyResponse = await fetch("../../../public/proving.key");
+            const proveKeyArrayBuffer = await proveKeyResponse.arrayBuffer(); // Fetch array buffer directly
+            const proveKeyString = arrayBufferToBase64(proveKeyArrayBuffer);
+
+            // Assuming the program file is located at /public/pharmacy.zok
+            const programResponse = await fetch("../../../public/pharmacy.zok");
+            const programString = await programResponse.text();
+
+            setProveKeyString(proveKeyString);
+            setProgramString(programString);
+        };
+
+        fetchData();
         // Initialize contract when component mounts
         initializeContract();
     }, []);
@@ -144,3 +182,5 @@ export function PurchaseButton() {
         </div >
     );
 }
+
+  export default PurchaseButton;
