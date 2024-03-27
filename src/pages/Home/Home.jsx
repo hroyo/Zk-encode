@@ -23,7 +23,7 @@ const Home = () => {
       minHeight: "100vh", /* Ensure container covers entire viewport height */
 
     }}>
-      <img src="/src/assets/pharma.png" alt="Pharma Logo" style={{ position: "absolute", top: 10, left: 10, width: "100px" }} />
+      <img src="/assets/pharma.png" alt="Pharma Logo" style={{ position: "absolute", top: 10, left: 10, width: "100px" }} />
 
       <div style={{ position: "absolute", top: 10, right: 50 }}>
         <ConnectButton /> {/* Render the ConnectButton component */}
@@ -45,7 +45,7 @@ const Home = () => {
               <PurchaseButton /> {/* Render the PurchaseButton component */}
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <img src="/src/assets/insulin.png" alt="Insulin" style={{ width: "250px", height: "250px", marginRight: "20px" }} />
+              <img src="/assets/insulin.png" alt="Insulin" style={{ width: "250px", height: "250px", marginRight: "20px" }} />
               <div>
                 {/* Add description or information about Medicine A here */}
               </div>
@@ -60,7 +60,7 @@ const Home = () => {
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
               {/* Replace the image path and description for Medicine B */}
-              <img src="/src/assets/ventolin.jpg" alt="Asthma" style={{ width: "200px", height: "250px", marginRight: "20px" }} />
+              <img src="/assets/ventolin.jpg" alt="Asthma" style={{ width: "200px", height: "250px", marginRight: "20px" }} />
               <div>
                 {/* Add description or information about Medicine B here */}
               </div>
@@ -81,10 +81,10 @@ const Home = () => {
           <a href="https://sepolia.etherscan.io/address/0xd3f2cc3e0214c8ae9c32722f50ac442af36a135a" style={{ color: "black", marginRight: "40px" }}>Store Contract</a>
 
           <a href="https://github.com/yourgithubusername" style={{ marginRight: "30px" }}>
-            <img src="/src/assets/githublogo.png" alt="GitHub Logo" style={{ width: "30px" }} />
+            <img src="/assets/githublogo.png" alt="GitHub Logo" style={{ width: "30px" }} />
           </a>
           <a href="https://github.com/yourgithubusername">
-            <img src="/src/assets/telegram.svg" alt="Telegram Logo" style={{ width: "30px" }} />
+            <img src="/assets/telegram.svg" alt="Telegram Logo" style={{ width: "30px" }} />
           </a>
         </div>
       </footer>
