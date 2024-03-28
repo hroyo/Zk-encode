@@ -2,7 +2,7 @@
     "name": "SecureMeds",
     "builds": [
         {
-            "src": "index.html",
+            "src": "/src/main.jsx",
             "use": "@vercel/static"
         }
     ],
@@ -12,7 +12,7 @@
         },
         {
             "src": "/.*",
-            "dest": "index.html"
+            "dest": "/src/main.jsx"
         }
     ]
 }
