@@ -12,7 +12,7 @@ import { ethers } from 'ethers';
 // Import your contract ABI (replace YourContractABI with the actual ABI)
 import YourContractABI from '../../PharmacyAbi.json';
 
-export function PurchaseButton() {
+export function PurchaseButton({ purchaseFunction }) {
     const { open } = useWeb3Modal();
     const { chain } = useNetwork();
     const { isConnected, address } = useAccount();
@@ -44,42 +44,11 @@ export function PurchaseButton() {
     };
 
     const transformResponseToProofFormat = (responseJson) => {
-        console.log("HERE COMES RESPONSE")
-        console.log(responseJson)
-        const proof = [
-            responseJson["a"],
-            [responseJson["b"][0], responseJson["b"][1]],
-            responseJson["c"]
-        ];
-
-        // Log the transformed proof to verify
-        console.log("PROOF TRANSFORMED")
-        console.log(proof);
-
-        const old_proof = [
-            [
-                "0x028195c34e9134e151da7e8f5e8e6f72ef3481ef13d9020da3680db9d877ba57",
-                "0x061aba800eca508650d0c15a1b4553bb9a12cfb1e72632eadfba0e2a8cbfff2a"
-            ],
-            [
-                [
-                    "0x1ee8688e3b35d9618dba7322577e3561aa9eca1a9e6e358daf85e9ca51bec41c",
-                    "0x0fef8bda9453610afcf1d27ce8e87f4d40cba40cd7da7270e41ad3f1883e4780"
-                ],
-                [
-                    "0x2e82664278fbd161f4b1c874a3055bade74d45367f98c916921cd68b43bced6e",
-                    "0x26d8776468a53ccf2b04b7301edd121cec896e6d0ddf857201e96b849ed0171e"
-                ]
-            ],
-            [
-                "0x2c198321be1bcfd3a916a8360b73841aa5fb6e8a47758632deac22a66a21cfdb",
-                "0x2b2bc53f9dd2df776c96f2de8eeafe13d32309c06e8abc2cfd8daa26d2dc6b65"
-            ]
-        ];
-        console.log(old_proof == proof)
-        console.log("OLD PROOF")
-        console.log(old_proof)
-        return proof;
+        return [
+                    responseJson["a"],
+                    [responseJson["b"][0], responseJson["b"][1]],
+                    responseJson["c"]
+                ];
     };
 
     const callContractFunction = async () => {
@@ -97,28 +66,35 @@ export function PurchaseButton() {
             console.log("ARTIFACTS")
             console.log(artifacts)
             const decimalStringAddress = BigInt(address).toString();
-            const { witness, output } = zk.computeWitness(artifacts, [decimalStringAddress, decimalStringAddress, ['22', '2312', '1234', '4444', '3333'], '1234']);
-            console.log("WITNESS")
-            console.log(witness)
             const proveKey = base64ToArrayBuffer(proveKeyString);
-            console.log("PROVE KEY")
-            console.log(proveKey)
-            const { proof, inputs } = zk.generateProof(
-                artifacts.program,
-                witness,
-                proveKey
-            );
-            console.log(proof)
-            // Call the function on the contract instance
-            const transformedProof = transformResponseToProofFormat(proof);
-            console.log(transformedProof);
-
-            const result = await contractInstance.buyMedicineA(transformedProof, {
-                value: ethers.utils.parseEther("0.001"), // The amount of Ether to send with the transaction.
-                gasLimit: ethers.utils.hexlify(1000000), // Setting a gas limit. Adjust the number based on your needs.
-            });
-
-            console.log(result); // Handle the result as needed
+            
+            if (purchaseFunction === 'buyMedicineA') {
+                const { witness, output } = zk.computeWitness(artifacts, [decimalStringAddress, decimalStringAddress, ['22', '2312', '1234', '4444', '3333'], '1234']);
+                const { proof, inputs } = zk.generateProof(
+                    artifacts.program,
+                    witness,
+                    proveKey
+                );
+                const transformedProof = transformResponseToProofFormat(proof);
+                await contractInstance.buyMedicineA(transformedProof, {
+                    value: ethers.utils.parseEther("0.001"), // The amount of Ether to send with the transaction.
+                    gasLimit: ethers.utils.hexlify(1000000), // Setting a gas limit. Adjust the number based on your needs.
+                });
+            } else {
+                console.log("CMP")
+                const { witness, output } = zk.computeWitness(artifacts, [decimalStringAddress, decimalStringAddress, ['22', '2312', '1234', '4444', '3333'], '5678']);
+                console.log("CMP2")
+                const { proof, inputs } = zk.generateProof(
+                    artifacts.program,
+                    witness,
+                    proveKey
+                );
+                const transformedProof = transformResponseToProofFormat(proof);
+                await contractInstance.buyMedicineB(transformedProof, {
+                    value: ethers.utils.parseEther("0.002"), // The amount of Ether to send with the transaction.
+                    gasLimit: ethers.utils.hexlify(1000000), // Setting a gas limit. Adjust the number based on your needs.
+                });
+            }            
         } catch (error) {
             console.error('Error calling contract function:', error);
         }

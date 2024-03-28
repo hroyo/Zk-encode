@@ -49,7 +49,7 @@ const Home = () => {
           <div style={{ marginBottom: "20px", background: "white", borderRadius: "25px", border: "4px solid #1d47b2", padding: "20px" }}>
             <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
               <h2>Epipen: <span style={{ fontWeight: "normal", marginRight: "16px" }}>Ξ 0.002</span></h2>
-              <PurchaseButton /> {/* Render the PurchaseButton component */}
+              <PurchaseButton purchaseFunction="buyMedicineB"/> {/* Render the PurchaseButton component */}
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
               <img src={insulinImage} alt="Insulin" style={{ width: "250px", height: "250px", marginRight: "20px" }} />
@@ -63,7 +63,7 @@ const Home = () => {
           <div style={{ marginBottom: "20px", background: "white", borderRadius: "25px", border: "4px solid #1d47b2", padding: "20px" }}>
             <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
               <h2>Ventoline: <span style={{ fontWeight: "normal", marginRight: "16px" }}>Ξ 0.001</span></h2>
-              <PurchaseButton /> {/* Render the PurchaseButton component */}
+              <PurchaseButton purchaseFunction="buyMedicineA"/> {/* Render the PurchaseButton component */}
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
               {/* Replace the image path and description for Medicine B */}

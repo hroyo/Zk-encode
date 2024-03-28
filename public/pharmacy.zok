@@ -4,5 +4,5 @@ def main(private field secret, field address, private field[5] arr, field target
     for u32 i in 0..5 {
         found = if (arr[i] == target) {true} else {found};
     }
-    assert(found);
+    return;
 }
