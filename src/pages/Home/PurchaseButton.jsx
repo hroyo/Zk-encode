@@ -34,7 +34,7 @@ export function PurchaseButton({ purchaseFunction }) {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
 
             // Load the contract
-            const contract = new ethers.Contract('0x6a651566a60f08e395068e0c20b29d0e95a5f875', YourContractABI, provider.getSigner());
+            const contract = new ethers.Contract('0x67a8a2843298a6e6f83e84d1d368fc078a1bb7a7', YourContractABI, provider.getSigner());
             setContractInstance(contract);
             setLoading(false); // Set loading to false after contract initialization
         } catch (error) {
@@ -58,13 +58,8 @@ export function PurchaseButton({ purchaseFunction }) {
         }
         try {
 
-            console.log("HELLO: ", address)
-            console.log("PROGRAM STRING")
-            console.log(programString)
             // Generate proof
             const artifacts = zk.compile(programString);
-            console.log("ARTIFACTS")
-            console.log(artifacts)
             const decimalStringAddress = BigInt(address).toString();
             const proveKey = base64ToArrayBuffer(proveKeyString);
             
@@ -81,9 +76,7 @@ export function PurchaseButton({ purchaseFunction }) {
                     gasLimit: ethers.utils.hexlify(1000000), // Setting a gas limit. Adjust the number based on your needs.
                 });
             } else {
-                console.log("CMP")
                 const { witness, output } = zk.computeWitness(artifacts, [decimalStringAddress, decimalStringAddress, ['22', '2312', '1234', '4444', '3333'], '5678']);
-                console.log("CMP2")
                 const { proof, inputs } = zk.generateProof(
                     artifacts.program,
                     witness,
