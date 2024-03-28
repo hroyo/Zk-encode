@@ -2,17 +2,14 @@
     "name": "SecureMeds",
     "builds": [
         {
-            "src": "/src/main.jsx",
+            "src": "index.html",
             "use": "@vercel/static"
         }
     ],
     "routes": [
         {
-            "handle": "filesystem"
-        },
-        {
             "src": "/.*",
-            "dest": "/src/main.jsx"
+            "dest": "index.html"
         }
     ]
 }
