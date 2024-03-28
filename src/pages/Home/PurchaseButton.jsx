@@ -135,7 +135,9 @@ export function PurchaseButton() {
             // const programString = await res2.text();
 
             // Assuming the proving key file is located at /public/proving.key
-            const proveKeyResponse = await fetch("../../../public/proving.key");
+            // const proveKeyResponse = await fetch("../../../public/proving.key");
+            const proveKeyResponse = await fetch("/proving.key");
+
             const proveKeyArrayBuffer = await proveKeyResponse.arrayBuffer(); // Fetch array buffer directly
             const proveKeyString = arrayBufferToBase64(proveKeyArrayBuffer);
 
