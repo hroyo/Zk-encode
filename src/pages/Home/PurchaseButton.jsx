@@ -88,7 +88,7 @@ export function PurchaseButton() {
             return;
         }
         try {
-            
+
             console.log("HELLO: ", address)
             console.log("PROGRAM STRING")
             console.log(programString)
@@ -97,7 +97,7 @@ export function PurchaseButton() {
             console.log("ARTIFACTS")
             console.log(artifacts)
             const decimalStringAddress = BigInt(address).toString();
-            const { witness, output } = zk.computeWitness(artifacts, [decimalStringAddress,decimalStringAddress,['22', '2312', '1234', '4444', '3333'], '1234']);
+            const { witness, output } = zk.computeWitness(artifacts, [decimalStringAddress, decimalStringAddress, ['22', '2312', '1234', '4444', '3333'], '1234']);
             console.log("WITNESS")
             console.log(witness)
             const proveKey = base64ToArrayBuffer(proveKeyString);
@@ -117,7 +117,7 @@ export function PurchaseButton() {
                 value: ethers.utils.parseEther("0.001"), // The amount of Ether to send with the transaction.
                 gasLimit: ethers.utils.hexlify(1000000), // Setting a gas limit. Adjust the number based on your needs.
             });
-            
+
             console.log(result); // Handle the result as needed
         } catch (error) {
             console.error('Error calling contract function:', error);
@@ -140,7 +140,9 @@ export function PurchaseButton() {
             const proveKeyString = arrayBufferToBase64(proveKeyArrayBuffer);
 
             // Assuming the program file is located at /public/pharmacy.zok
-            const programResponse = await fetch("../../../public/pharmacy.zok");
+            // const programResponse = await fetch("../../../public/pharmacy.zok");
+            const programResponse = await fetch("/pharmacy.zok");
+
             const programString = await programResponse.text();
 
             setProveKeyString(proveKeyString);
@@ -183,4 +185,4 @@ export function PurchaseButton() {
     );
 }
 
-  export default PurchaseButton;
+export default PurchaseButton;
