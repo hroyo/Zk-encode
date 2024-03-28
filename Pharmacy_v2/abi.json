@@ -1,0 +1,34 @@
+{
+  "inputs": [
+    {
+      "name": "secret",
+      "public": false,
+      "type": "field"
+    },
+    {
+      "name": "address",
+      "public": true,
+      "type": "field"
+    },
+    {
+      "name": "arr",
+      "public": false,
+      "type": "array",
+      "components": {
+        "size": 5,
+        "type": "field"
+      }
+    },
+    {
+      "name": "target",
+      "public": true,
+      "type": "field"
+    }
+  ],
+  "output": {
+    "type": "tuple",
+    "components": {
+      "elements": []
+    }
+  }
+}
