@@ -3,7 +3,10 @@ import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 import { useZokrates } from "../../contexts/ZokratesContext";
 import { arrayBufferToBase64, base64ToArrayBuffer } from "../../utils/converter";
-
+import LoadingModal from './LoadingModal'; // Import the LoadingModal component
+import CircularProgress from '@mui/material/CircularProgress';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 
 // Import ethers.js
@@ -13,6 +16,8 @@ import { ethers } from 'ethers';
 import YourContractABI from '../../PharmacyAbi.json';
 
 export function PurchaseButton({ purchaseFunction }) {
+    const [processingTransaction, setProcessingTransaction] = useState(false);
+    const [transactionSuccess, setTransactionSuccess] = useState(null);
     const { open } = useWeb3Modal();
     const { chain } = useNetwork();
     const { isConnected, address } = useAccount();
@@ -62,7 +67,7 @@ export function PurchaseButton({ purchaseFunction }) {
             const artifacts = zk.compile(programString);
             const decimalStringAddress = BigInt(address).toString();
             const proveKey = base64ToArrayBuffer(proveKeyString);
-            
+            let txResponse = null;
             if (purchaseFunction === 'buyMedicineA') {
                 const { witness, output } = zk.computeWitness(artifacts, [decimalStringAddress, decimalStringAddress, ['22', '2312', '1234', '4444', '3333'], '1234']);
                 const { proof, inputs } = zk.generateProof(
@@ -71,7 +76,7 @@ export function PurchaseButton({ purchaseFunction }) {
                     proveKey
                 );
                 const transformedProof = transformResponseToProofFormat(proof);
-                await contractInstance.buyMedicineA(transformedProof, {
+                txResponse = await contractInstance.buyMedicineA(transformedProof, {
                     value: ethers.utils.parseEther("0.001"), // The amount of Ether to send with the transaction.
                     gasLimit: ethers.utils.hexlify(1000000), // Setting a gas limit. Adjust the number based on your needs.
                 });
@@ -83,14 +88,32 @@ export function PurchaseButton({ purchaseFunction }) {
                     proveKey
                 );
                 const transformedProof = transformResponseToProofFormat(proof);
-                await contractInstance.buyMedicineB(transformedProof, {
+                txResponse = await contractInstance.buyMedicineB(transformedProof, {
                     value: ethers.utils.parseEther("0.002"), // The amount of Ether to send with the transaction.
                     gasLimit: ethers.utils.hexlify(1000000), // Setting a gas limit. Adjust the number based on your needs.
                 });
-            }            
+            }
+            setProcessingTransaction(true);
+            const receipt = await txResponse.wait();
+            console.log("transaction receipt:", receipt)
+            if (receipt && receipt.status != null) {
+                if (receipt.status === 0) {
+                    setProcessingTransaction(false);
+                    setTransactionSuccess(false);
+                    console.error("Transaction failed.");
+                } else {
+                    setTransactionSuccess(true);
+                    console.log("Transaction successful.");
+                }
+            }          
         } catch (error) {
             console.error('Error calling contract function:', error);
+            setTransactionSuccess(false);
         }
+        finally {
+            // Set processingTransaction to false when transaction completes (whether success or failure)
+            setProcessingTransaction(false);
+          }
     };
 
     useEffect(() => {
@@ -123,10 +146,33 @@ export function PurchaseButton({ purchaseFunction }) {
         fetchData();
         // Initialize contract when component mounts
         initializeContract();
-    }, []);
+
+        // Reset transaction success state after 2 seconds
+        if (transactionSuccess !== null) {
+            const timeout = setTimeout(() => {
+                setTransactionSuccess(null);
+            }, 2000);
+            
+            return () => clearTimeout(timeout);
+        }
+    }, [transactionSuccess]);
 
     return (
         <div>
+            {processingTransaction && (
+            // Overlay shown when processingTransaction is true
+            <div
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Slightly transparent black background
+                    zIndex: '9998', // Ensure the overlay is below the modal
+                }}
+            ></div>
+        )}
             {isConnected && !loading && (
                 <div>
                     <div>
@@ -139,20 +185,63 @@ export function PurchaseButton({ purchaseFunction }) {
                                 backgroundColor: "#1d47b2", // Optional: Set transparent background
                                 color: "white",
                                 cursor: "pointer", // Optional: Add pointer cursor on hover
-
+    
                             }}
                             onMouseEnter={(e) => (e.target.style.backgroundColor = "#334499")} // Change background color on hover
                             onMouseLeave={(e) => (e.target.style.backgroundColor = "#445faf")} >
                             Zk Buy
                         </button>
                     </div>
-
                 </div>
-            )
-            }
-
-            {loading && <p>Loading...</p>}
-        </div >
+            )}
+    
+            {processingTransaction && (
+                <div style={{
+                    position: 'fixed',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    backgroundColor: '#156669',
+                    padding: '40px',
+                    borderRadius: '20px',
+                    zIndex: '9999',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                    color: '#fff',
+                }}>
+                    <CircularProgress color="inherit" size={60} thickness={4} />
+                    <p style={{ marginTop: '20px', color: '#fff' }}>Processing...</p>
+                </div>
+            )}
+            {transactionSuccess !== null && (
+                <div style={{
+                    position: 'fixed',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    backgroundColor: '#156669',
+                    padding: '80px',
+                    borderRadius: '20px',
+                    zIndex: '9999',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                    color: '#fff',
+                }}>
+                    {transactionSuccess ? (
+                        <CheckCircleIcon style={{ color: 'green', fontSize: 50 }} />
+                    ) : (
+                        <CancelIcon style={{ color: 'red', fontSize: 50 }} />
+                    )}
+                    <p style={{ marginTop: '20px', color: '#fff' }}>
+                        {transactionSuccess ? 'Transaction Successful' : 'Transaction Failed'}
+                    </p>
+                </div>
+            )}
+        </div>
     );
 }
 
