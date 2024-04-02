@@ -168,8 +168,8 @@ export function PurchaseButton({ purchaseFunction }) {
                     left: 0,
                     width: '100%',
                     height: '100%',
-                    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Slightly transparent black background
-                    zIndex: '9998', // Ensure the overlay is below the modal
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+                    zIndex: '9998', 
                 }}
             ></div>
         )}
